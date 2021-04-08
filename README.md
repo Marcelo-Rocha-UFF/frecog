@@ -1,5 +1,5 @@
 # frecog
-Módulo de detecção de faces do Pedro Valentin GTVD.
+Módulo de reconhecimento facial do Pedro Valentin GTVD.
 
 Foram "comentadas"/retiradas algumas features do código com o objetivo de adaptá-lo às necessidades do EVA, são elas:
 
