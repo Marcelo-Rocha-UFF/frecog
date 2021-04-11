@@ -144,7 +144,10 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 
 	cap = cv2.VideoCapture(0) #webcam
 
-	while(True):
+	#### loop de captura e analise da imagem
+	#while(True):
+	for i in range(15): # numero de leituras necessarias
+		###############print("valor de i:", i)
 		ret, img = cap.read()
 		
 		#cv2.namedWindow('img', cv2.WINDOW_FREERATIO)
@@ -167,7 +170,6 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 		face_index = 0
 		for (x,y,w,h) in faces:
 			if w > 130: #discard small detected faces
-				
 				face_detected = True
 				if face_index == 0:
 					face_included_frames = face_included_frames + 1 #increase frame for a single face
@@ -187,9 +189,8 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 				
 		# if face_detected == True and face_included_frames == frame_threshold and freeze == False:
 		if face_detected == True and freeze == False:
-      
 			round += 1
-      
+		
 			freeze = True
 			#base_img = img.copy()
 			base_img = raw_img.copy()
@@ -197,19 +198,16 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 			tic = time.time()
 		
 		if freeze == True:
-
 			toc = time.time()
 			if (toc - tic) < time_threshold:
-				
 				if freezed_frame == 0:
 					freeze_img = base_img.copy()
-					#freeze_img = np.zeros(resolution, np.uint8) #here, np.uint8 handles showing white area issue
-					
+					#freeze_img = np.zeros(resolution, np.uint8) #here, np.uint8 handles showing white area issue	
 					for detected_face in detected_faces_final:
 						x = detected_face[0]; y = detected_face[1]
 						w = detected_face[2]; h = detected_face[3]
 												
-########################cv2.rectangle(freeze_img, (x,y), (x+w,y+h), (67,67,67), 1) #draw rectangle to main image
+	########################cv2.rectangle(freeze_img, (x,y), (x+w,y+h), (67,67,67), 1) #draw rectangle to main image
 						
 						#-------------------------------
 						
@@ -226,7 +224,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 							emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
 							emotion_predictions = emotion_model.predict(gray_img)[0,:]
 							sum_of_predictions = emotion_predictions.sum()
-                     
+						
 							mood_items = []
 							for i in range(0, len(emotion_labels)):
 								mood_item = []
@@ -258,17 +256,17 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 								resultado = next(iter(ordered_guesses_score))
 								print("Expressao = " + resultado)
 								#print(ordered_guesses_score)
-######################################### mqtt
+	######################################### mqtt
 								#client.publish("topic/emotion_recog", resultado)
 								round = 0
 								guesses = []
-                     
+						
 							#background of mood box
 							
 							#transparency
 							overlay = freeze_img.copy()
 							opacity = 0.4
-######################################
+	######################################
 							"""if x+w+pivot_img_size < resolution_x:
 								#right
 								#cv2.rectangle(freeze_img
@@ -343,7 +341,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 							analysis_report = str(int(apparent_age))+" "+gender
 							"""
 							#-------------------------------
-###############################
+	###############################
 							"""info_box_color = (46,200,255)
 							
 							#top
@@ -417,7 +415,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 																		
 									label = employee_name.split("/")[-1].replace(".jpg", "")
 									label = re.sub('[0-9]', '', label)
-##########################################
+	##########################################
 									"""try:
 										if y - pivot_img_size > 0 and x + w + pivot_img_size < resolution_x:
 											#top right
@@ -500,7 +498,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 		
 		#if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
 		#	break
-		
-	#kill open cv things		
+	# fim do while	
+#kill open cv things		
 	cap.release()
 	cv2.destroyAllWindows()
