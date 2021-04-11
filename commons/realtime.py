@@ -147,15 +147,19 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 	tic = time.time()
 
 ##### loop de captura e analise da imagem #######################################################################
-	#while(True):
+	print("------------------------------------------------")
+	print("- Modulo de reconhecimento facial iniciado...  -")
+	print("------------------------------------------------")
 	# criando o server socket
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	s.bind((HOST, PORT))
 	s.listen()
 	while(True):
+		resultado = "UNDEFINED"
 		cap = cv2.VideoCapture(0) #webcam
-		print("Aguardando conexao do cliente...")
+		print("Aguardando a conexao com o EVA...")
 		conn, addr = s.accept() # funcao (block) aguarda conexao
+		print("Ligando a WebCam")
 		for i in range(18): # numero de leituras necessarias
 			###############print("valor de i:", i)
 			ret, img = cap.read()
@@ -264,8 +268,8 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 										guesses_score[guess] += 1
 									ordered_guesses_score = {k: v for k, v in sorted(guesses_score.items(), key=lambda item: item[1], reverse=True)}
 									resultado = next(iter(ordered_guesses_score))
-									conn.sendall(resultado.encode()) # envia a expressao (codificada em bytes) para o cliente
-									print("Expressao = " + resultado)
+									#conn.sendall(resultado.encode()) # envia a expressao (codificada em bytes) para o cliente
+									#print("Expressao detectada: " + resultado)
 									#print(ordered_guesses_score)
 		######################################### mqtt
 									#client.publish("topic/emotion_recog", resultado)
@@ -503,10 +507,12 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 					face_included_frames = 0
 					freeze = False
 					freezed_frame = 0
-
+		print("Expressao detectada: " + resultado)
+		conn.sendall(resultado.encode()) # envia a expressao (codificada em bytes) para o cliente
 		print("Desligando a Webcam...")
 		cap.release()
-		print("fim de conexao")
+		print("Fim da conexao")
+		print("------------------------------------------------")
 		conn.close()
 		
 			#else:
