@@ -142,7 +142,7 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 	freezed_frame = 0
 	tic = time.time()
 
-	cap = cv2.VideoCapture(1) #webcam
+	cap = cv2.VideoCapture(0) #webcam
 
 	while(True):
 		ret, img = cap.read()
