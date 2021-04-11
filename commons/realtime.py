@@ -256,10 +256,10 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 									guesses_score[guess] += 1
 								ordered_guesses_score = {k: v for k, v in sorted(guesses_score.items(), key=lambda item: item[1], reverse=True)}
 								resultado = next(iter(ordered_guesses_score))
-								print(resultado)
+								print("Expressao = " + resultado)
 								#print(ordered_guesses_score)
 ######################################### mqtt
-								client.publish("topic/emotion_recog", resultado)
+								#client.publish("topic/emotion_recog", resultado)
 								round = 0
 								guesses = []
                      
