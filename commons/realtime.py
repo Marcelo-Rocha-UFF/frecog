@@ -155,12 +155,12 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 	s.bind((HOST, PORT))
 	s.listen()
 	while(True):
-		resultado = "UNDEFINED"
+		resultado = "indefinido"
 		cap = cv2.VideoCapture(0) #webcam
 		print("Aguardando a conexao com o EVA...")
 		conn, addr = s.accept() # funcao (block) aguarda conexao
 		print("Ligando a WebCam")
-		for i in range(18): # numero de leituras necessarias
+		for i in range(10): # numero de leituras necessarias
 			###############print("valor de i:", i)
 			ret, img = cap.read()
 			
@@ -235,7 +235,8 @@ def analysis(db_path, model_name, distance_metric, enable_face_analysis = True):
 							if enable_face_analysis == True:
 								
 								gray_img = functions.detectFace(custom_face, (48, 48), True)
-								emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+								#emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+								emotion_labels = ['raiva', 'desgostoso', 'medo', 'feliz', 'triste', 'surpreso', 'neutro']
 								emotion_predictions = emotion_model.predict(gray_img)[0,:]
 								sum_of_predictions = emotion_predictions.sum()
 							

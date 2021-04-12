@@ -228,6 +228,7 @@ def analyze(img_path, actions = [], models = {}, enforce_detection = True):
 
 			if action == 'emotion':
 				emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
+				
 				img = functions.detectFace(img_path, target_size = (48, 48), grayscale = True, enforce_detection = enforce_detection)
 
 				emotion_predictions = emotion_model.predict(img)[0,:]
